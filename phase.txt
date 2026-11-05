@@ -1,0 +1,52 @@
+Gemini is the model provider; LangChain is the orchestration framework.
+LangChain does not host the model. Your program sends a request through the integration, Gemini processes it, and the response returns to your application.
+
+1. create a virtual environment - python -m venv .venv
+2. in requirement.txt file install [python -m pip install -r requirement.txt]
+  -- if developer don't want to write in it then [pip freeze > requirements.txt] this cmd automatically populate the already installed packages
+
+3. to check already installed packages : [pip list] - This prints a clean, human-readable table showing every installed package and its version number side-by-side.
+  -- [pip freeze ] - This prints the packages using the exact package==version format that your requirements.txt file expects.
+
+4. pip - packeage installer for python - like npm package installer for js
+• To download a new tool: pip install package_name (e.g., pip install requests)
+• To delete a tool: pip uninstall package_name
+• To upgrade a tool: pip install --upgrade package_name
+
+
+Phase 1 : Document Loading , Text Extraction and chunking
+Document loader	Reads a file and extracts its contents
+Text extraction	Converts PDF pages or text files into machine-readable text
+Document	LangChain's data structure for text plus metadata
+Metadata	Information such as filename, page number and document ID
+Chunking	Splitting long text into smaller pieces
+Chunk size	The target size of each piece
+Chunk overlap	Text shared between consecutive chunks
+Source attribution	Preserving where a piece of text originated
+
+langchain-community : provides the PyPDFLoader integration. -- for pdf upload 
+pypdf: extracts text from PDF files.
+langchain-text-splitters: provides reusable text chunking algorithms.
+
+1. create documet_loader.pypdf
+- Accept a PDF file path.
+- Load each page into a LangChain Document.
+- Inspect page_content and metadata.
+- Preserve the filename and page number.
+- Validate that useful text was extracted.
+
+ - langchain-chroma connects ChromaDB to LangChain's vector-store interface, while chromadb provides the underlying vector database.
+
+
+# **RAG** 
+
+- LCEL stands for LangChain Expression Language. It lets us connect components using the pipe operator |.
+prompt : 
+[("""xyz context: {context}"""),(
+            "human",
+            "{question}",
+        ),
+        ]
+{context}: Retrieved chunks from ChromaDB.
+{question}: The original user question.
+
