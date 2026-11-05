@@ -2,6 +2,7 @@
 import os
 from pathlib import Path
 
+import streamlit as st
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 
@@ -16,7 +17,12 @@ load_dotenv(BASE_DIR / ".env")
 def get_chat_model() -> ChatGoogleGenerativeAI:
     """Initialize and return the Gemini chat model."""
 
-    api_key = os.getenv("GOOGLE_GEMINI_API_KEY")
+    try:
+        api_key = st.secrets.get("GOOGLE_GEMINI_API_KEY")
+    except Exception:
+        api_key = None
+
+    api_key = api_key or os.getenv("GOOGLE_GEMINI_API_KEY")
 
     if not api_key:
         raise ValueError(
